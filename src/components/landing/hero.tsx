@@ -45,8 +45,8 @@ export default function Hero() {
             variants={itemVariants}
             className="text-4xl md:text-5xl lg:text-[4rem] font-bold text-contrast tracking-tight mb-6 leading-[1.15]"
           >
-            La mayoría de los dueños no tienen un problema de tiempo. <br className="hidden lg:block" />
-            <span className="text-secondary">Tienen un problema de&nbsp;Arquitectura.</span>
+            La mayoría de los dueños de negocio no tienen un problema de tiempo. <br className="hidden lg:block" />
+            <span className="text-secondary">Tienen un problema de arquitectura.</span>
           </motion.h1>
 
           <motion.p
