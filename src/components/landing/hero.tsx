@@ -45,7 +45,7 @@ export default function Hero() {
             variants={itemVariants}
             className="text-[1.75rem] leading-[1.2] sm:text-4xl md:text-5xl lg:text-[4rem] font-bold text-contrast tracking-tight mb-6 max-w-[100%] lg:max-w-6xl mx-auto px-2 break-words"
           >
-            <span className="block mb-2">
+            <span className="block mb-1">
               La mayoría de los dueños no tienen un problema de tiempo.
             </span>
             <span className="block text-secondary">
