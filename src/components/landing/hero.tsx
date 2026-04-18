@@ -45,7 +45,7 @@ export default function Hero() {
             variants={itemVariants}
             className="text-4xl md:text-5xl lg:text-[4rem] font-bold text-contrast tracking-tight mb-6 leading-[1.15]"
           >
-            La mayoría de los dueños no tienen un problema de tiempo.{" "}
+            La mayoría de los dueños no tienen un problema de tiempo.{""}
             <span className="text-secondary block">
               Tienen un problema de arquitectura.
             </span>
