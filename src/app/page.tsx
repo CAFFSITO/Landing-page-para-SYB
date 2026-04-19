@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import Navbar from "@/components/landing/navbar";
 import Hero from "@/components/landing/hero";
 import ProblemSection from "@/components/landing/problem-section";
@@ -19,7 +19,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   // Si viene un token en la URL, validamos contra la tabla socios
   if (token) {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data: socio } = await supabase
       .from("socios")
       .select("id")

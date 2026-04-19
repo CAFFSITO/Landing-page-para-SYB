@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import LoginForm from "@/components/landing/login-form";
 
 type PageProps = {
@@ -15,7 +15,7 @@ export default async function LoginPage({ searchParams }: PageProps) {
     redirect("/");
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   // Validamos que el token corresponda a un socio activo
   const { data: socio } = await supabase
