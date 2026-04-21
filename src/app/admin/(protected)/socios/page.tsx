@@ -1,7 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import SociosTable from "@/components/admin/socios/SociosTable";
-import type { Socio } from "@/types";
 
 export default async function SociosPage() {
   const supabase = createAdminClient();

@@ -65,7 +65,6 @@ export default async function AdminPage() {
   const sociosList = socios ?? [];
   const lecturasList = lecturas ?? [];
 
-  // Última actividad por socio (primer resultado ya viene desc por leido_at)
   const ultimaActividadMap = new Map<string, string>();
   for (const l of lecturasList) {
     if (!ultimaActividadMap.has(l.socio_id)) {
@@ -73,7 +72,6 @@ export default async function AdminPage() {
     }
   }
 
-  // Ordenar socios por última actividad desc
   const sociosOrdenados = [...sociosList].sort((a, b) => {
     const ua = ultimaActividadMap.get(a.id);
     const ub = ultimaActividadMap.get(b.id);
@@ -83,7 +81,6 @@ export default async function AdminPage() {
     return new Date(ub).getTime() - new Date(ua).getTime();
   });
 
-  // Métricas
   const totalActivos = sociosList.length;
   const enFase1 = sociosList.filter((s) => s.fase_actual === 1).length;
   const enFase3 = sociosList.filter((s) => s.fase_actual === 3).length;
@@ -115,7 +112,6 @@ export default async function AdminPage() {
 
   return (
     <div style={{ maxWidth: "1100px" }}>
-      {/* Heading */}
       <h1
         style={{
           fontFamily: "Merriweather, Georgia, serif",
@@ -128,7 +124,6 @@ export default async function AdminPage() {
         Dashboard
       </h1>
 
-      {/* Metric cards */}
       <div
         style={{
           display: "flex",
@@ -153,7 +148,6 @@ export default async function AdminPage() {
         </div>
       </div>
 
-      {/* Tabla */}
       <div
         style={{
           backgroundColor: "#1C0D35",
@@ -253,7 +247,6 @@ export default async function AdminPage() {
                         e.currentTarget.style.background = "transparent";
                       }}
                     >
-                      {/* Nombre */}
                       <td
                         style={{
                           padding: "14px 16px",
@@ -266,7 +259,6 @@ export default async function AdminPage() {
                         {socio.nombre}
                       </td>
 
-                      {/* Empresa */}
                       <td
                         style={{
                           padding: "14px 16px",
@@ -277,7 +269,6 @@ export default async function AdminPage() {
                         {socio.empresa ?? "—"}
                       </td>
 
-                      {/* Fase */}
                       <td style={{ padding: "14px 16px", whiteSpace: "nowrap" }}>
                         <span
                           style={{
@@ -295,7 +286,6 @@ export default async function AdminPage() {
                         </span>
                       </td>
 
-                      {/* Progreso */}
                       <td style={{ padding: "14px 16px", minWidth: "120px" }}>
                         <div
                           style={{
@@ -337,7 +327,6 @@ export default async function AdminPage() {
                         </div>
                       </td>
 
-                      {/* Última actividad */}
                       <td
                         style={{
                           padding: "14px 16px",
@@ -349,7 +338,6 @@ export default async function AdminPage() {
                         {tiempoRelativo(ultimaAct)}
                       </td>
 
-                      {/* Acciones */}
                       <td style={{ padding: "14px 16px", whiteSpace: "nowrap" }}>
                         <div style={{ display: "flex", gap: "8px" }}>
                           <Link
