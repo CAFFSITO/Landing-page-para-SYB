@@ -1,42 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { useActionState } from "react";
+import { adminLoginWithToken } from "@/app/actions/admin-auth";
+
+const initialState = { error: null };
 
 export default function AdminLoginForm() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    const supabase = createClient();
-    const { data, error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (authError || !data.user) {
-      setError("Credenciales incorrectas. Intentá de nuevo.");
-      setLoading(false);
-      return;
-    }
-
-    if (data.user.user_metadata?.role !== "admin") {
-      await supabase.auth.signOut();
-      setError("No tenés permisos de administrador.");
-      setLoading(false);
-      return;
-    }
-
-    router.push("/admin");
-  }
+  const [state, formAction, isPending] = useActionState(
+    adminLoginWithToken,
+    initialState
+  );
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
@@ -114,7 +87,7 @@ export default function AdminLoginForm() {
         </p>
 
         <form
-          onSubmit={handleSubmit}
+          action={formAction}
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -126,11 +99,10 @@ export default function AdminLoginForm() {
             </label>
             <input
               id="email"
+              name="email"
               type="email"
               autoComplete="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               style={inputStyle}
               onFocus={(e) => {
                 e.currentTarget.style.borderColor = "#9D5CC0";
@@ -143,18 +115,17 @@ export default function AdminLoginForm() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
             <label
-              htmlFor="password"
+              htmlFor="token"
               style={{ fontSize: "0.875rem", color: "#c4b8d4", fontWeight: 500 }}
             >
-              Contraseña
+              Token de acceso
             </label>
             <input
-              id="password"
+              id="token"
+              name="token"
               type="password"
-              autoComplete="current-password"
+              autoComplete="off"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               style={inputStyle}
               onFocus={(e) => {
                 e.currentTarget.style.borderColor = "#9D5CC0";
@@ -167,11 +138,11 @@ export default function AdminLoginForm() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={isPending}
             style={{
               width: "100%",
               padding: "14px",
-              background: loading
+              background: isPending
                 ? "rgba(157,92,192,0.5)"
                 : "linear-gradient(135deg, #3B1E63, #9D5CC0)",
               color: "#FFFFFF",
@@ -180,20 +151,20 @@ export default function AdminLoginForm() {
               fontSize: "1rem",
               borderRadius: "6px",
               border: "none",
-              cursor: loading ? "not-allowed" : "pointer",
+              cursor: isPending ? "not-allowed" : "pointer",
               transition: "filter 200ms ease",
             }}
             onMouseEnter={(e) => {
-              if (!loading) e.currentTarget.style.filter = "brightness(1.15)";
+              if (!isPending) e.currentTarget.style.filter = "brightness(1.15)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.filter = "brightness(1)";
             }}
           >
-            {loading ? "Iniciando sesión..." : "Ingresar"}
+            {isPending ? "Verificando..." : "Ingresar"}
           </button>
 
-          {error && (
+          {state?.error && (
             <p
               style={{
                 color: "#EF4444",
@@ -202,7 +173,7 @@ export default function AdminLoginForm() {
                 margin: 0,
               }}
             >
-              {error}
+              {state.error}
             </p>
           )}
         </form>
