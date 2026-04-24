@@ -2,17 +2,20 @@
 
 import Link from "next/link";
 
-type SocioRow = {
-  id: string;
-  nombre: string;
-  empresa: string | null;
-  fase_actual: number;
-  fase_1_done: boolean;
-  fase_2_done: boolean;
-  fase_3_done: boolean;
-  activo: boolean;
-  created_at: string;
-};
+import type { Socio } from "@/types";
+
+export type SocioRow = Pick<
+  Socio,
+  | "id"
+  | "nombre"
+  | "empresa"
+  | "fase_actual"
+  | "fase_1_done"
+  | "fase_2_done"
+  | "fase_3_done"
+  | "activo"
+  | "created_at"
+>;
 
 type Props = {
   socios: SocioRow[];

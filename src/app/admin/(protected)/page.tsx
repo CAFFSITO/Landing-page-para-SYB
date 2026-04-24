@@ -1,19 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/server";
-import SociosTable from "@/components/admin/SociosTable";
-import type { Socio } from "@/types";
-
-type SocioRow = Pick<
-  Socio,
-  | "id"
-  | "nombre"
-  | "empresa"
-  | "fase_actual"
-  | "fase_1_done"
-  | "fase_2_done"
-  | "fase_3_done"
-  | "activo"
-  | "created_at"
->;
+import SociosTable, { type SocioRow } from "@/components/admin/SociosTable";
 
 type LecturaMin = {
   socio_id: string;
