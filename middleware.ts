@@ -43,12 +43,13 @@ export async function middleware(request: NextRequest) {
   }
 
   // Proteger /admin — requiere sesión activa Y rol de administrador
-  if (pathname.startsWith("/admin")) {
+  // /admin/login queda excluido para que el form sea accesible sin sesión
+  if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
     if (!user) {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/admin/login", request.url));
     }
     if (user.user_metadata?.role !== "admin") {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/admin/login", request.url));
     }
   }
 
